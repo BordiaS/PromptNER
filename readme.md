@@ -6,6 +6,7 @@ cd PromptNER
 pip install -r requirements.txt
 python -m nltk.downloader stopwords    
 pip install seqeval==0.0.10
+python run.py
 ```
 
 originally cloned from https://github.com/DhananjayAshok/PromptNER/
