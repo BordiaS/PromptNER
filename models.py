@@ -128,10 +128,34 @@ class Mistral():
             gpu_memory_utilization=.95,
             max_model_len=4096
         )
+       # self.llm = "TheBloke/Mistral-7B-Instruct-v0.2-AWQ",
     
     def query(self,prompt):    
         output = self.llm.generate(prompt, self.sampling_params)
         return output[0].outputs[0].text
+        #return prompt
+    
+    def __call__(self, prompt):
+        return self.query(prompt)
+
+
+class Llama():
+# Load the LLM
+    def __init__(self, size="large"):
+        self.sampling_params = SamplingParams(temperature=0.0, top_p=1.0, max_tokens=256)
+        self.llm = LLM(
+            model="TheBloke/Llama-2-7B-Chat-AWQ",
+            quantization='awq',
+            dtype='half',
+            gpu_memory_utilization=.60,
+            max_model_len=4096
+        )
+        #self.llm = "TheBloke/Llama-2-7B-Chat-AWQ",
+    
+    def query(self,prompt):    
+        output = self.llm.generate(prompt, self.sampling_params)
+        return output[0].outputs[0].text
+        #return prompt
     
     def __call__(self, prompt):
         return self.query(prompt)

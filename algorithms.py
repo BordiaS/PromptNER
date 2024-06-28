@@ -7,9 +7,19 @@ from models import OpenAIGPT
 
 
 class BaseAlgorithm:
-    defn = "An entity is an object, place, individual, being, title, proper noun or process that has a distinct and " \
+    """defn = "An entity is an object, place, individual, being, title, proper noun or process that has a distinct and " \
            "independent existence. The name of a collection of entities is also an entity. Adjectives, verbs, numbers, " \
            "adverbs, abstract concepts are not entities. Dates, years and times are not entities"
+           
+    """
+    defn = "An entity is a person (person), title, named organization (org), location (loc), country (loc) or nationality (misc)." \
+           "Names, first names, last names, countries are entities. Nationalities are entities even if they are " \
+           "adjectives. Sports, sporting events, adjectives, verbs, numbers, " \
+           "adverbs, abstract concepts, sports, are not entities. Dates, years and times are not entities. " \
+           "Possessive words like I, you, him and me are not entities. " \
+           "If a sporting team has the name of their location and the location is used to refer to the team, " \
+           "it is an entity which is an organisation, not a location"
+
 
     chatbot_init = "You are an entity recognition system. "
     entity_token_task = "In the sentence '[sent]'. The phrase '[token]' is an entity of type [type]. In one line explain why. \nAnswer: The phrase '[token]' is an entity of type [type] because"
@@ -74,7 +84,8 @@ class Algorithm(BaseAlgorithm):
         if true_tokens is not None:
             para_words = [token.lower() for token in true_tokens]
         else:
-            para_words = para.split(" ")
+            #para_words = para.split(" ")
+            para_words = para.split()
         span_pred = ["O" for word in para_words]
         completed_answers = []
         split_tokens = ["'s", ":"]
@@ -240,8 +251,9 @@ class Algorithm(BaseAlgorithm):
         #     output = self.model_fn(task_string)
         
         try:
-            msgs = [(self.defn, "system"), (task_string, "user")]
-            output = self.model_fn(msgs)
+            if self.model_fn.is_chat():
+                msgs = [(self.defn, "system"), (task_string, "user")]
+                output = self.model_fn(msgs)
         except:
             task_string = self.defn + "\n" + task_string
             output = self.model_fn(task_string)

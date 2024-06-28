@@ -204,7 +204,8 @@ def eval_tweetnerd(model, algorithm, n_runs=2, sleep_between_queries=None, limit
         tweetnerd_train = load_tweetnerd("train")
         subsample = sample_all_types(tweetnerd_train, 3)
         texts = subsample["text"].tolist()
-        tokens = subsample["text"].apply(lambda x: x.split(" ")).tolist()
+        tokens = subsample["text"].apply(lambda x: x.split()).tolist()
+        #tokens = subsample["text"].apply(lambda x: x.split(" ")).tolist()
         labels = subsample["exact_types"].tolist()
         config.autogenerate_annotations(algorithm, texts, tokens, labels)
     config.set_config(algorithm, exemplar=exemplar, coT=coT, defn=defn, tf=tf)
@@ -344,6 +345,7 @@ def ablate_best(gpt=False, dataset_exclude=["genia"], subdataset_exclude=["polit
 
 
 if __name__ == "__main__":
-    from models import OpenAIGPT, T5XL, Alpaca, Mistral
+    #from models import OpenAIGPT, T5XL, Alpaca, Mistral
+    from models import Mistral
     run_all_datasets(gpt=False)
 
