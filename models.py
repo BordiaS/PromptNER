@@ -116,7 +116,6 @@ class Alpaca(ParallelHuggingFaceModel):
         
         
 
-
 class Mistral():
 # Load the LLM
     def __init__(self, size="large"):

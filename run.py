@@ -23,8 +23,9 @@ def eval_dataset(val, model, algorithm, sleep_between_queries=None, print_every=
             time.sleep(sleep_between_queries)
         types = None
         flag = False
+
         while not flag:
-            try:
+            try:                           
                 true_tokens = None
                 if "true_tokens" in val.columns:
                     true_tokens = q["true_tokens"]
@@ -38,9 +39,9 @@ def eval_dataset(val, model, algorithm, sleep_between_queries=None, print_every=
                 data.append(subdata)
                 f1_micro = f1_score(truths, preds, average="micro")
                 flag = True
-            except openai.error.RateLimitError:
-                time.sleep(0.5)
-            except IndexError:
+            # except openai.error.RateLimitError:
+            #     time.sleep(0.5)
+            except IndexError:            
                 flag = True
         if print_every is not None:
             if i % print_every == 0:

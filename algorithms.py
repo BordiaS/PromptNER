@@ -78,7 +78,8 @@ class Algorithm(BaseAlgorithm):
         assert self.identify_types and not self.split_phrases
         answers, typestrings, metadata = self.perform(verbose=verbose, deduplicate=False)
         return self.parse_span(answers, typestrings, metadata, true_tokens=true_tokens)
-
+        
+        
     def parse_span(self, answers, typestrings, metadata, true_tokens=None):
         para = self.para.lower()
         if true_tokens is not None:
@@ -193,6 +194,7 @@ class Algorithm(BaseAlgorithm):
             return answers, metadata
         else:
             return answers, typestrings, metadata
+
 
     def perform_single_query(self, verbose=True):
         if self.exemplar_task is not None:

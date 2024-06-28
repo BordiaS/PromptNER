@@ -149,7 +149,7 @@ class AnswerMapping:
                 final.append(option.strip().lower())
         if not identify_types:
             return final
-        else:
+        else:            
             return final, typestring
 
 
