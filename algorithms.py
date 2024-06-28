@@ -232,10 +232,17 @@ class Algorithm(BaseAlgorithm):
             task_string = self.entity_token_task.replace("[sent]", self.para)
             task_string = task_string.replace("[token]", token)
             task_string = task_string.replace("[type]", ner_label)
-        if self.model_fn.is_chat():
+        # if self.model_fn.is_chat():
+        #     msgs = [(self.defn, "system"), (task_string, "user")]
+        #     output = self.model_fn(msgs)
+        # else:
+        #     task_string = self.defn + "\n" + task_string
+        #     output = self.model_fn(task_string)
+        
+        try:
             msgs = [(self.defn, "system"), (task_string, "user")]
             output = self.model_fn(msgs)
-        else:
+        except:
             task_string = self.defn + "\n" + task_string
             output = self.model_fn(task_string)
         return output
